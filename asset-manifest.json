@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/Kanji-Party/static/css/main.dbacb27e.css",
+    "main.js": "/Kanji-Party/static/js/main.cd5dbcaa.js",
+    "static/js/787.c8fd7444.chunk.js": "/Kanji-Party/static/js/787.c8fd7444.chunk.js",
+    "static/media/logo_transparent_crop.png": "/Kanji-Party/static/media/logo_transparent_crop.ebee823262ab4ac4fff8.png",
+    "index.html": "/Kanji-Party/index.html",
+    "main.dbacb27e.css.map": "/Kanji-Party/static/css/main.dbacb27e.css.map",
+    "main.cd5dbcaa.js.map": "/Kanji-Party/static/js/main.cd5dbcaa.js.map",
+    "787.c8fd7444.chunk.js.map": "/Kanji-Party/static/js/787.c8fd7444.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dbacb27e.css",
+    "static/js/main.cd5dbcaa.js"
+  ]
+}
