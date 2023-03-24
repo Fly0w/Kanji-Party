@@ -10,6 +10,17 @@ body {
   background-color: rgb(255, 244, 213);
 }
 
+/*Useful classes */ 
+.divcolcenter{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+
 .top_page{
   display: flex;
   flex-direction: column;
@@ -22,7 +33,8 @@ body {
 }
 
 h2{
-  margin:0
+  margin:0;
+  
 }
 
 h4{
@@ -41,14 +53,14 @@ h4{
 
 /* Input range cursor styling */
 #players {
-  width: 30%;
+  width: 30vw;
   background: rgb(0, 217, 214);  
   border-radius: 50px;
   -webkit-appearance: none;
 }
 
 #difficulty{
-  width: 50%;
+  width: 60vw;
   background: linear-gradient(0.3turn, rgb(67, 224, 0), rgb(253, 55, 55));
   border-radius: 50px;
   -webkit-appearance: none;
@@ -64,6 +76,8 @@ input[type="range"]::-webkit-slider-thumb {
   box-shadow: 0 0 2px 0 #555;
 }
 
+
+/* Start Game Button */
 #start{
   font-family: 'Quicksand';
   font-weight: bolder;
@@ -84,5 +98,5 @@ input[type="range"]::-webkit-slider-thumb {
   transform: scale(1.05);
   background:linear-gradient(0.85turn, rgb(48, 246, 237), rgb(195, 127, 244));
   color: rgb(255, 255, 255);
-
 }
+

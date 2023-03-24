@@ -1,0 +1,115 @@
+/* Back Home Button */
+#home{
+    font-family: 'Quicksand';
+    font-weight: bolder;
+    font-size: 1.2rem;
+    letter-spacing: 0.5rem;
+    padding: 0.5rem 1rem;
+  
+    color: rgb(255, 255, 255);
+    background:linear-gradient(0.85turn, rgb(123, 57, 255), rgb(121, 28, 242));
+    border: none;
+  
+    border-radius: 30px;
+    transition: transform ease-in-out 0.2s;
+}
+  
+#home:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    background:linear-gradient(0.85turn, rgb(123, 57, 255), rgb(121, 28, 242));
+    color: rgb(255, 255, 255);
+}
+
+
+/* Send Answer Button */
+#send{
+    font-family: 'Quicksand';
+    font-weight: bolder;
+    font-size: 1.2rem;
+    letter-spacing: 0.5rem;
+    padding: 0.5rem 1rem;
+  
+    color: rgb(255, 255, 255);
+    background:linear-gradient(0.85turn, rgb(33, 213, 114), rgb(28, 242, 181));
+    border: none;
+  
+    border-radius: 30px;
+    transition: transform ease-in-out 0.2s;
+}
+  
+#send:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    background:linear-gradient(0.85turn, rgb(33, 213, 114), rgb(28, 242, 181));
+    color: rgb(255, 255, 255);
+}
+  
+/* Erase Answer Button */
+#erase{
+    font-family: 'Quicksand';
+    font-weight: bolder;
+    font-size: 1.2rem;
+    letter-spacing: 0.5rem;
+    padding: 0.5rem 1rem;
+  
+    color: rgb(255, 255, 255);
+    background:linear-gradient(0.85turn, rgb(229, 39, 39), rgb(242, 28, 28));
+    border: none;
+  
+    border-radius: 30px;
+    transition: transform ease-in-out 0.2s;
+}
+  
+#erase:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    background:linear-gradient(0.85turn, rgb(229, 39, 39), rgb(242, 28, 28));
+    color: rgb(255, 255, 255);
+}
+
+/* Pass Button */
+#pass{
+    font-family: 'Quicksand';
+    font-weight: bolder;
+    font-size: 1.2rem;
+    letter-spacing: 0.5rem;
+    padding: 0.5rem 1rem;
+  
+    color: rgb(255, 255, 255);
+    background:linear-gradient(0.85turn, rgb(54, 54, 54), rgb(34, 28, 28));
+    border: none;
+  
+    border-radius: 30px;
+    transition: transform ease-in-out 0.2s;
+}
+  
+#pass:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    background:linear-gradient(0.85turn, rgb(54, 54, 54), rgb(34, 28, 28));
+    color: rgb(255, 255, 255);
+}
+
+
+.previewKanji {
+    display: flex;
+    justify-content: space-around;
+    border: solid 2px rgb(78, 255, 47);
+    width: 80vw;
+    margin: 20px 10px;
+    
+}
+
+.kanjinow{
+    font-size: 8rem;
+    background-color: rgb(21, 89, 149);
+}
+.listanswers{
+    background-color: rgb(21, 149, 119);
+}
+
+
+.buttons{
+    margin: 10px;
+}

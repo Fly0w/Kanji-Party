@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import logoKanjiParty from "../Logos/logo_transparent_crop.png";
+import Selector from './components/Selector';
+import Logo from './components/Logo';
+import Button from './components/Button';
+import Game from './components/Game'
 
 class Home extends Component {
   constructor(){
@@ -8,7 +11,8 @@ class Home extends Component {
         listKanji: [],
         kanjiLevel: [],
         number_players:'1',
-        difficulty: '1'
+        difficulty: '1',
+        route: 'home'
     }
   }
 
@@ -55,6 +59,7 @@ class Home extends Component {
 
     this.setState({ kanjiLevel : list }, () => {console.log("List of selected Kanji", this.state.kanjiLevel)}
     );
+    this.onRouteChangeGame();
   }
 
 //function that gets all the Kanjis from the API
@@ -72,16 +77,26 @@ class Home extends Component {
     Promise.all(listLinkApi.map(url=>
       fetch(url)
       .then(response => response.json())))
-    .then(data => this.setState({listKanji: data}, () => {
+      .then(data => this.setState({listKanji: data}, () => {
       console.log("List of all Kanji",this.state.listKanji)
     }
     ));
   }
 
+  onRouteChangeGame = () => {
+    this.setState({route:'game'})
+  }
+
+  onRouteChangeHome = () => {
+    this.setState({route:'home'})
+  }
+
+  onRouteChangeEnd = () => {
+    this.setState({route:'end'})
+  }
 
   componentDidMount(){
     this.getListKanjiAll();
-    this.getKanjiLevel();
     this.setNumberPlayers();
     this.setDifficulty();
   }
@@ -89,20 +104,27 @@ class Home extends Component {
   render(){
     return(
     <div>
-      <div className="top_page">
-        <img className ="logo" src={logoKanjiParty} alt="Logo Kanji Party" />
-        <h2>Test your Kanji knowledge and battle with your friends !</h2>
-      </div>
-
+      <Logo />
+    
+    {this.state.route === 'home' 
+    ?
+    <div>
       <div className='selectors'>
-        <h3>Number of Players</h3>
-        <input id="players" type="range" name="players" min="1" max="4" defaultValue={"1"} onChange={this.setNumberPlayers} />
-        <h4 id="value_players">{`${this.state.number_players} Player(s)`} </h4>
-        <h3>Difficulty</h3>
-        <input id="difficulty" type="range" name="difficulty" min="1" max="10" defaultValue={"1"} onChange={this.setDifficulty} />
-        <h4 id="value_difficulty">{this.state.difficulty}</h4>
-        <input id="start" type="button" name="start" value="Start Game" onClick={this.getKanjiLevel}/>
+        <Selector title = {"Number of Players"} id_sel={"players"} name_sel={"players"} min={"1"} max={"4"} defaultValue={"1"} func={this.setNumberPlayers} text={`${this.state.number_players} Player(s)`} />
+        <Selector title = {"Difficulty"} id_sel={"difficulty"} name_sel={"difficulty"} min={"1"} max={"10"} defaultValue={"1"} func={this.setDifficulty} text={`Level ${this.state.difficulty}`} />
+        <Button id_but={"start"} name_but={"start"} value={"Start Game"} func={this.getKanjiLevel}/>
       </div>
+    </div>
+    : this.state.route === 'game'
+      ? <div>
+        <Button id_but={"home"} name_but={"home"} value={"Home"} func={this.onRouteChangeHome}/>
+        <Game listKanji = {this.state.kanjiLevel}/>
+        </div>
+      : <div>
+        <Button id_but={"playagain"} name_but={"playagain"} value={"Play again"} func={this.sendAnswer} route="home"/>
+        </div>
+    }
+    
     </div>
   );
 }
