@@ -10,11 +10,13 @@ class Game extends Component {
     this.state = {
         input: '',
         kanjiList: [],
-        singleKanji: {},
+        singleKanji: '',
+        singleKanjiAnswers: [],
     }
   }
   sendAnswer = () => {
-    console.log("Send answer")
+    console.log("Send answer");
+    document.getElementById("answer").value = "";
   }
 
   eraseAnswer = () => {
@@ -24,6 +26,7 @@ class Game extends Component {
 
   pass = () => {
     console.log("Pass")
+
   }
 
   // Function setting the state for the input box
@@ -43,45 +46,67 @@ class Game extends Component {
       //         meaning : ['great trouble', 'difficulty']},
       //         ..........
       //         ]
-  updateKanjiList(ListOfKanji){
-    const result = [];
-
-//Take the first 50 elements of the shuffled list
+  updateKanjiList = (ListOfKanji) =>{
+  //Take the first 20 elements of the shuffled list
     for (let i = ListOfKanji.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [ListOfKanji[i], ListOfKanji[j]] = [ListOfKanji[j], ListOfKanji[i]];
     }
-    const first50Elements = ListOfKanji.slice(0, 50);
-  
+    const first20Elements = ListOfKanji.slice(0, 20);
+    console.log("first 50", first20Elements);
 
-//For every element, make an API call, get the response, and transform the object into the desired format (triplets). Create one list for every kanji
-    for (let kanji of first50Elements){
-      let allversionsKanji = [kanji];
-      fetch("https://kanjiapi.dev/v1/words/" + kanji)
-        .then(response => response.json())
-        .then(response => {
-          for (let element of response){
-            allversionsKanji.push(
-              {writing : element.variants[0].written,
-                reading : element.variants.map(elem => elem.pronounced) ,
-                meaning : element.meanings[0].glosses }) 
-          };
-          result.push(allversionsKanji)
-        })
-        .then(response => this.setState({kanjiList: result}, () => {console.log(this.state.kanjiList)}))
-    }
+    this.dataProcessKanjiWords(first20Elements);
   }
 
+
+// Function that takes a list of Kanji in parameters. For each Kanji, returns a list starting with the kanji itself, and every triplet of information (writing, reading, meaning) for every word that exists with that Kanji
+dataProcessKanjiWords = async function(listKanji) { 
+  const result = [];
+  for await (let kanji of listKanji){
+    const allversionsKanji = [kanji];
+    const promise = await fetch("https://kanjiapi.dev/v1/words/" + kanji);
+    const listOfWords = await promise.json();
+    for await (let word of listOfWords){
+      allversionsKanji.push(
+        { writing : word.variants[0].written,
+          reading : word.variants.map(elem => elem.pronounced),
+          meaning : word.meanings[0].glosses })
+    }
+    result.push(allversionsKanji);
+  }
+  console.log("result", result)
+  return result
+}
+
+
+
+
+
+
+
+
+// Function that takes as a parameter a list of items with the first item being a Kanji character.Then, displays the kanji in the game interface, change the singleKanji states with the current Kanji
+  displayKanjiAndPrepareAnswers = (kanji) => {
+    // const carac = kanji[0];
+    // const answer = kanji.slice(1, -1);
+    console.log("first Kanji", kanji[0]);
+
+    this.setState({singleKanji : kanji}, () => console.log("Current Kanji", this.state.singleKanji));
+    this.setState({singleKanjiList : kanji.slice(1, -1)}, () => console.log("Current Kanji Answers", this.state.singleKanjiAnswers));
+  }
+
+
+
   componentDidMount(){
-    this.updateKanjiList(this.props.listKanji);
+    this.updateKanjiList(this.props.listKanji)
+    
   }
 
 
   render(){
-    // const { listKanji } = this.props;
+    
     return(
       <div>
-        
         <div className="divcolcenter">
           <PreviewKanji />
           <InputAnswer onInputChange={this.onInputChange}/>
@@ -90,7 +115,6 @@ class Game extends Component {
             <Button id_but={"erase"} name_but={"erase"} value={"Erase"} func={this.eraseAnswer} route="game"/>
             <Button id_but={"pass"} name_but={"pass"} value={"Pass"} func={this.pass} route="game"/>
           </div>
-          {/* <p>{listKanji}</p> */}
         </div>
       </div>
     );

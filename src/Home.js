@@ -59,6 +59,7 @@ class Home extends Component {
 
     this.setState({ kanjiLevel : list }, () => {console.log("List of selected Kanji", this.state.kanjiLevel)}
     );
+
     this.onRouteChangeGame();
   }
 
@@ -78,9 +79,7 @@ class Home extends Component {
       fetch(url)
       .then(response => response.json())))
       .then(data => this.setState({listKanji: data}, () => {
-      console.log("List of all Kanji",this.state.listKanji)
-    }
-    ));
+      console.log("List of all Kanji",this.state.listKanji)}))
   }
 
   onRouteChangeGame = () => {

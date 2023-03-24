@@ -5,7 +5,7 @@ class Button extends Component {
   render(){
     let { id_but, name_but, value, func } = this.props;
     return(
-        <input id={id_but} type="button" name={name_but} value={value} onClick={func} />
+        <input className="button" id={id_but} type="button" name={name_but} value={value} onClick={func} />
     );
   }
 }

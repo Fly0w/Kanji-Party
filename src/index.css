@@ -77,6 +77,12 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 
+/* buttons */
+.button{
+  margin: 0 10px;
+}
+
+
 /* Start Game Button */
 #start{
   font-family: 'Quicksand';
