@@ -92,21 +92,37 @@
 }
 
 
+
 .previewKanji {
     display: flex;
-    justify-content: space-around;
-    border: solid 2px rgb(78, 255, 47);
+    justify-content: space-evenly;
+    align-items: center;
+    border: solid 1px rgb(68, 0, 27);
+    border-radius: 12px;
     width: 80vw;
+    height: 50vh;
     margin: 20px 10px;
-    
 }
 
 .kanjinow{
     font-size: 8rem;
-    background-color: rgb(21, 89, 149);
+    background-color: rgba(203, 226, 254, 0.677);
+    border: solid 1px rgb(36, 33, 33);
+    border-radius: 12px;
+    height: 200px;
+    width: 200px;
 }
+
+.kanjinow p{
+    margin: 0;
+    color: rgb(37, 30, 30);
+}
+
 .listanswers{
     background-color: rgb(21, 149, 119);
+    height: 90%;
+    width: 40%;
+    border-radius: 12px;
 }
 
 

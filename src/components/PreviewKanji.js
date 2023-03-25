@@ -5,13 +5,13 @@ class PreviewKanji extends Component {
   render(){
     return(
         <div className="previewKanji">
-          <div className="kanjinow">
-            <p>快</p>
+          <div className="kanjinow divcolcenter">
+            <p>{this.props.kanji}</p>
           </div>
             
           <div className="listanswers">
             <p >List of answers</p>
-            <p >算算算算算</p>
+            <p ></p>
           </div>         
         </div>
     );

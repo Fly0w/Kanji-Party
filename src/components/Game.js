@@ -9,13 +9,19 @@ class Game extends Component {
     super();
     this.state = {
         input: '',
+        userAnwers:'',
         kanjiList: [],
-        singleKanji: '',
-        singleKanjiAnswers: [],
+        kanjiNow:"",
+        kanjiNowAnswers:[],
+        kanjiNext:"",
+        kanjiNextAnswers:[],
+        key:0,
     }
   }
   sendAnswer = () => {
     console.log("Send answer");
+    
+    if (this.state.input)
     document.getElementById("answer").value = "";
   }
 
@@ -25,90 +31,95 @@ class Game extends Component {
   }
 
   pass = () => {
-    console.log("Pass")
-
+    this.changeStateKanjiWordNow(this.state.kanjiNext)
+    this.changeStateKanjiWordNext(this.state.kanjiList[this.state.key])
+    this.addKeyState(1);
+    // console.log("Pass");
   }
 
-  // Function setting the state for the input box
+
+
+  addKeyState = (value) => {
+    this.setState({key : this.state.key + value},() => console.log("key", this.state.key));
+  }
+
+
+// Function setting the state for the input box
   onInputChange = (event) => {
   this.setState({input: event.target.value}, () => console.log(this.state.input))
   }
 
-// Function that take random Kanji in the list in parameters, and make API calls to get the information of all the Kanjis selected. For a given Kanji, and for every word composed of that Kanji, extracts : 1.Kanji Writing 2.Reading(s) 3.Meaning(s). These Triplets will be put in objects
-      // Desired Output : 
-      // result = [
-      //    "七", 
-      //        {writing : '七十', 
-      //         pronounciation : ['しちじゅう', 'ななじゅう', 'ななそ'], 
-      //         meaning : ['seventy']},
-      //        {writing : '七面倒', 
-      //         pronounciation : ['しちめんどう'], 
-      //         meaning : ['great trouble', 'difficulty']},
-      //         ..........
-      //         ]
-  updateKanjiList = (ListOfKanji) =>{
-  //Take the first 20 elements of the shuffled list
-    for (let i = ListOfKanji.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [ListOfKanji[i], ListOfKanji[j]] = [ListOfKanji[j], ListOfKanji[i]];
-    }
-    const first20Elements = ListOfKanji.slice(0, 20);
-    console.log("first 50", first20Elements);
 
-    this.dataProcessKanjiWords(first20Elements);
+
+// Function that takes a list of Kanji and shuffle it. Then call functions to initiate the state of first and second Kanjis
+  updateKanjiLists = (ListOfKanji) =>{
+    //Take the first 20 elements of the shuffled list
+      for (let i = ListOfKanji.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [ListOfKanji[i], ListOfKanji[j]] = [ListOfKanji[j], ListOfKanji[i]];
+      }
+      const first20Elements = ListOfKanji.slice(0, 20);
+      this.setState({kanjiList : first20Elements}, () => console.log("first 20",this.state.kanjiList))
+
+      this.changeStateKanjiWordNow(first20Elements[0])
+      this.changeStateKanjiWordNext(first20Elements[1])
+      this.addKeyState(2) //Have to update key since the 2 first kanji are already processed
   }
 
 
-// Function that takes a list of Kanji in parameters. For each Kanji, returns a list starting with the kanji itself, and every triplet of information (writing, reading, meaning) for every word that exists with that Kanji
-dataProcessKanjiWords = async function(listKanji) { 
-  const result = [];
-  for await (let kanji of listKanji){
-    const allversionsKanji = [kanji];
-    const promise = await fetch("https://kanjiapi.dev/v1/words/" + kanji);
+// Function that makes an API call for the Kanji in parameters, and updates the states of KanjiNow with processed data
+  changeStateKanjiWordNow = async function(Kanji) { 
+    const result = [];
+
+  //Loops that re-arrange the data according to desired layout
+    // const allWords = [];
+    const promise = await fetch("https://kanjiapi.dev/v1/words/" + Kanji);
     const listOfWords = await promise.json();
     for await (let word of listOfWords){
-      allversionsKanji.push(
+      result.push(
         { writing : word.variants[0].written,
           reading : word.variants.map(elem => elem.pronounced),
           meaning : word.meanings[0].glosses })
     }
-    result.push(allversionsKanji);
-  }
-  console.log("result", result)
-  return result
-}
 
-
-
-
-
-
-
-
-// Function that takes as a parameter a list of items with the first item being a Kanji character.Then, displays the kanji in the game interface, change the singleKanji states with the current Kanji
-  displayKanjiAndPrepareAnswers = (kanji) => {
-    // const carac = kanji[0];
-    // const answer = kanji.slice(1, -1);
-    console.log("first Kanji", kanji[0]);
-
-    this.setState({singleKanji : kanji}, () => console.log("Current Kanji", this.state.singleKanji));
-    this.setState({singleKanjiList : kanji.slice(1, -1)}, () => console.log("Current Kanji Answers", this.state.singleKanjiAnswers));
+    this.setState({kanjiNow : Kanji}, () => console.log("KanjiNow",this.state.kanjiNow));
+    this.setState({kanjiNowAnswers : result}, () => console.log("KanjiNowAnswers",this.state.kanjiNowAnswers));
   }
 
 
+// Function that makes an API call for the Kanji in parameters, and updates the states of KanjiNext with processed data
+  changeStateKanjiWordNext = async function(Kanji) { 
+    const result = [];
+
+  //Loops that re-arrange the data according to desired layout
+    const promise = await fetch("https://kanjiapi.dev/v1/words/" + Kanji);
+    const listOfWords = await promise.json();
+    for await (let word of listOfWords){
+      result.push(
+        { writing : word.variants[0].written,
+          reading : word.variants.map(elem => elem.pronounced),
+          meaning : word.meanings[0].glosses })
+    }
+    this.setState({kanjiNext : Kanji}, () => console.log("KanjiNext",this.state.kanjiNext));
+    this.setState({kanjiNextAnswers : result}, () => console.log("KanjiNextAnswers",this.state.kanjiNextAnswers));
+  }
+
+  startGame = () => {
+    this.updateKanjiLists(this.props.listKanjiHome);
+
+  }
 
   componentDidMount(){
-    this.updateKanjiList(this.props.listKanji)
-    
+    this.startGame()
   }
 
 
   render(){
-    
     return(
       <div>
         <div className="divcolcenter">
-          <PreviewKanji />
+          <h1>Game !</h1>
+          <PreviewKanji kanji={this.state.kanjiNow}/>
           <InputAnswer onInputChange={this.onInputChange}/>
           <div className="buttons">
             <Button id_but={"send"} name_but={"send"} value={"Send"} func={this.sendAnswer} route="game"/>

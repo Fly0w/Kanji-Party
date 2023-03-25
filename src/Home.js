@@ -103,12 +103,13 @@ class Home extends Component {
   render(){
     return(
     <div>
-      <Logo />
+      
     
     {this.state.route === 'home' 
     ?
     <div>
       <div className='selectors'>
+        <Logo />
         <Selector title = {"Number of Players"} id_sel={"players"} name_sel={"players"} min={"1"} max={"4"} defaultValue={"1"} func={this.setNumberPlayers} text={`${this.state.number_players} Player(s)`} />
         <Selector title = {"Difficulty"} id_sel={"difficulty"} name_sel={"difficulty"} min={"1"} max={"10"} defaultValue={"1"} func={this.setDifficulty} text={`Level ${this.state.difficulty}`} />
         <Button id_but={"start"} name_but={"start"} value={"Start Game"} func={this.getKanjiLevel}/>
@@ -116,8 +117,9 @@ class Home extends Component {
     </div>
     : this.state.route === 'game'
       ? <div>
+        <Game listKanjiHome = {this.state.kanjiLevel}/>
         <Button id_but={"home"} name_but={"home"} value={"Home"} func={this.onRouteChangeHome}/>
-        <Game listKanji = {this.state.kanjiLevel}/>
+        
         </div>
       : <div>
         <Button id_but={"playagain"} name_but={"playagain"} value={"Play again"} func={this.sendAnswer} route="home"/>
