@@ -8,13 +8,15 @@ class PreviewKanji extends Component {
           <div className="kanjinow divcolcenter">
             <p>{this.props.kanji}</p>
           </div>
-            
           <div className="listanswers">
-            <p >List of answers</p>
-            <p ></p>
-          </div>         
+            <p>List of answers</p>
+            {
+            this.props.answers.map(answer => 
+              {return(<p>{answer}</p>);})
+            }     
+          </div>
         </div>
-    );
+    )
   }
 }
 

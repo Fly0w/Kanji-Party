@@ -16,21 +16,21 @@ class Home extends Component {
     }
   }
 
-  //function that gets the value of the input for number of players, and changes the state
+//function that gets the value of the input for number of players, and changes the state
   setNumberPlayers = () => {
     const input = document.querySelector("#players");
     input.addEventListener("input", (event) => {
       this.setState({number_players: event.target.value}, () =>{console.log("Number of players",this.state.number_players)});
       });
   }
-  //function that gets the value of the input for difficulty, and changes the state
+//function that gets the value of the input for difficulty, and changes the state
   setDifficulty = () => {
     const input = document.querySelector("#difficulty");
     input.addEventListener("input", (event) => {
       this.setState({difficulty: event.target.value}, () =>{console.log("Level",this.state.difficulty)});
       });
   }
-  //function that creates the list of kanji according to the selected level, and send it to the state
+//function that creates the list of kanji according to the selected level, and send it to the state
   getKanjiLevel = () => {
     const level = this.state.difficulty;
     let list = [];
@@ -82,14 +82,19 @@ class Home extends Component {
       console.log("List of all Kanji",this.state.listKanji)}))
   }
 
+//Function that changes the route to 'game'
   onRouteChangeGame = () => {
     this.setState({route:'game'})
   }
 
+//Function that changes the route to 'home'
   onRouteChangeHome = () => {
-    this.setState({route:'home'})
+    this.setState({route:'home'});
+    this.setState({difficulty: '1'});
+    this.setState({number_players:'1'});
   }
 
+//Function that changes the route to 'end'
   onRouteChangeEnd = () => {
     this.setState({route:'end'})
   }
@@ -103,8 +108,6 @@ class Home extends Component {
   render(){
     return(
     <div>
-      
-    
     {this.state.route === 'home' 
     ?
     <div>
@@ -119,13 +122,11 @@ class Home extends Component {
       ? <div>
         <Game listKanjiHome = {this.state.kanjiLevel}/>
         <Button id_but={"home"} name_but={"home"} value={"Home"} func={this.onRouteChangeHome}/>
-        
         </div>
       : <div>
         <Button id_but={"playagain"} name_but={"playagain"} value={"Play again"} func={this.sendAnswer} route="home"/>
         </div>
     }
-    
     </div>
   );
 }

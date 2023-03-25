@@ -9,7 +9,9 @@ class Game extends Component {
     super();
     this.state = {
         input: '',
-        userAnwers:'',
+        userAnswers:[],
+        userAnswersDisplay:[],
+        score:0,
         kanjiList: [],
         kanjiNow:"",
         kanjiNowAnswers:[],
@@ -18,35 +20,48 @@ class Game extends Component {
         key:0,
     }
   }
+
+// Function that checks if the answer given by the user is correct, by checking in all the possible answers in the answers list. If the answer exists, put it in the list of answers and gives 1 point
   sendAnswer = () => {
-    console.log("Send answer");
-    
-    if (this.state.input)
-    document.getElementById("answer").value = "";
+    const input = this.state.input;
+    if(this.state.userAnswers.includes(input)===false){
+      for (let answer of this.state.kanjiNowAnswers){
+        if(answer.reading.includes(input)) {
+          this.setState(prevState => ({userAnswers:[...prevState.userAnswers, input]}));
+          this.setState({score: this.state.score + 1 });
+          return
+        } else {
+        }
+      }
+    } else {
+      console.log("Already in the list");
+    }
   }
 
+// Function that resets the text input 
   eraseAnswer = () => {
     document.getElementById("answer").value = "";
     console.log("Erase answer")
   }
 
+// Function that skips the current kanji to go to the next one, updating the differents states
   pass = () => {
     this.changeStateKanjiWordNow(this.state.kanjiNext)
     this.changeStateKanjiWordNext(this.state.kanjiList[this.state.key])
+    this.setState({userAnswers:[]});
     this.addKeyState(1);
-    // console.log("Pass");
   }
 
 
-
+// Function that changes the key in the state (for list of kanji indentation)
   addKeyState = (value) => {
-    this.setState({key : this.state.key + value},() => console.log("key", this.state.key));
+    this.setState({key : this.state.key + value});
   }
 
 
 // Function setting the state for the input box
   onInputChange = (event) => {
-  this.setState({input: event.target.value}, () => console.log(this.state.input))
+  this.setState({input: event.target.value})
   }
 
 
@@ -91,7 +106,7 @@ class Game extends Component {
   changeStateKanjiWordNext = async function(Kanji) { 
     const result = [];
 
-  //Loops that re-arrange the data according to desired layout
+  //Loops that re-arranges the data according to desired layout
     const promise = await fetch("https://kanjiapi.dev/v1/words/" + Kanji);
     const listOfWords = await promise.json();
     for await (let word of listOfWords){
@@ -101,16 +116,12 @@ class Game extends Component {
           meaning : word.meanings[0].glosses })
     }
     this.setState({kanjiNext : Kanji}, () => console.log("KanjiNext",this.state.kanjiNext));
-    this.setState({kanjiNextAnswers : result}, () => console.log("KanjiNextAnswers",this.state.kanjiNextAnswers));
+    this.setState({kanjiNextAnswers : result});
   }
 
-  startGame = () => {
-    this.updateKanjiLists(this.props.listKanjiHome);
-
-  }
 
   componentDidMount(){
-    this.startGame()
+    this.updateKanjiLists(this.props.listKanjiHome);
   }
 
 
@@ -118,13 +129,13 @@ class Game extends Component {
     return(
       <div>
         <div className="divcolcenter">
-          <h1>Game !</h1>
-          <PreviewKanji kanji={this.state.kanjiNow}/>
+          <h1>Score : {this.state.score}</h1>
+          <PreviewKanji kanji={this.state.kanjiNow} answers={this.state.userAnswers}/>
           <InputAnswer onInputChange={this.onInputChange}/>
           <div className="buttons">
             <Button id_but={"send"} name_but={"send"} value={"Send"} func={this.sendAnswer} route="game"/>
             <Button id_but={"erase"} name_but={"erase"} value={"Erase"} func={this.eraseAnswer} route="game"/>
-            <Button id_but={"pass"} name_but={"pass"} value={"Pass"} func={this.pass} route="game"/>
+            <Button id_but={"pass"} name_but={"pass"} value={"Next"} func={this.pass} route="game"/>
           </div>
         </div>
       </div>
