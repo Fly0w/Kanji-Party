@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Kanji-Party/static/css/main.dbacb27e.css",
-    "main.js": "/Kanji-Party/static/js/main.cd5dbcaa.js",
+    "main.css": "/Kanji-Party/static/css/main.fa216f92.css",
+    "main.js": "/Kanji-Party/static/js/main.32fb3ac5.js",
     "static/js/787.c8fd7444.chunk.js": "/Kanji-Party/static/js/787.c8fd7444.chunk.js",
     "static/media/logo_transparent_crop.png": "/Kanji-Party/static/media/logo_transparent_crop.ebee823262ab4ac4fff8.png",
     "index.html": "/Kanji-Party/index.html",
-    "main.dbacb27e.css.map": "/Kanji-Party/static/css/main.dbacb27e.css.map",
-    "main.cd5dbcaa.js.map": "/Kanji-Party/static/js/main.cd5dbcaa.js.map",
+    "main.fa216f92.css.map": "/Kanji-Party/static/css/main.fa216f92.css.map",
+    "main.32fb3ac5.js.map": "/Kanji-Party/static/js/main.32fb3ac5.js.map",
     "787.c8fd7444.chunk.js.map": "/Kanji-Party/static/js/787.c8fd7444.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.dbacb27e.css",
-    "static/js/main.cd5dbcaa.js"
+    "static/css/main.fa216f92.css",
+    "static/js/main.32fb3ac5.js"
   ]
 }
